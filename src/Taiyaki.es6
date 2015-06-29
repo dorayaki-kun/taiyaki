@@ -48,7 +48,7 @@ export class Taiyaki {
   }
 
   bindVbos( vboAttribs ) {
-    vboAttribs.forEach( function( vboAttrib ) {
+    vboAttribs.forEach(( vboAttrib ) => {
       this.bindVbo( vboAttrib.name, vboAttrib.vertices, vboAttrib.stride );
     });
   }
