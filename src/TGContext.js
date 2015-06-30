@@ -1,5 +1,5 @@
 'use strict';
-export class Taiyaki {
+class TGContext {
   constructor( id ) {
     let canvas   = document.getElementById( id );
     this.gl      = canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' );
@@ -10,7 +10,7 @@ export class Taiyaki {
     let gl      = this.gl;
     let program = gl.createProgram();
 
-    ids.forEach( gl.attachShader( program, this.createShader ) );
+    ids.map( gl.attachShader( program, this.createShader ) );
     gl.linkProgram( program );
 
     if ( gl.getProgramParameter( program, gl.LINKS_STATUS ) ) {
@@ -48,7 +48,7 @@ export class Taiyaki {
   }
 
   bindVbos( vboAttribs ) {
-    vboAttribs.forEach(( vboAttrib ) => {
+    vboAttribs.map(( vboAttrib ) => {
       this.bindVbo( vboAttrib.name, vboAttrib.vertices, vboAttrib.stride );
     });
   }
@@ -96,3 +96,5 @@ export class Taiyaki {
     gl.drawElements( mode, count, gl.UNSIGNED_SHORT, offset );
   }
 }
+
+exports = {TGContext};
