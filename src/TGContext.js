@@ -86,6 +86,47 @@ class TGContext {
     gl.depthFunc( gl.LEQUAL );
   }
 
+  // uniform bind
+  bindUniforms( uniformAttribs ) {
+    uniformAttribs.map( ( uniformAttrib ) =>
+                            this.bindUniform( uniformAttrib.name,
+                                              uniformAttrib.type,
+                                              uniformAttrib.value ) );
+  }
+
+  bindUniform( name, type, value ) {
+    let gl = this.gl;
+    let location = gl.getUniformLocation( this.program, name );
+
+    switch ( type ) {
+    case 'matrix4fv':
+      gl.uniformMatrix4fv( location, false, value );
+      break;
+    case '4fv':
+      gl.uniform4fv( location, value );
+      break;
+    case '3fv':
+      gl.uniform3fv( location, value );
+      break;
+    case '2fv':
+      gl.uniform2fv( location, value );
+      break;
+    case '1fv':
+      gl.uniform1fv( location, value );
+      break;
+    case '1f':
+      gl.uniform1f( location, value );
+      break;
+    case '1iv':
+      gl.uniform1iv( location, value );
+      break;
+    case '1i':
+      gl.uniform1i( location, value );
+      break;
+    default:
+    }
+  }
+
   drawArrays( mode, count, first = 0 ) {
     let gl = this.gl;
     gl.drawArrays( mode, first, count );
