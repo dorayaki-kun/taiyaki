@@ -10,7 +10,10 @@ class TGContext {
     let gl      = this.gl;
     let program = gl.createProgram();
 
-    ids.map( gl.attachShader( program, this.createShader ) );
+    ids.map( ( id ) => {
+      gl.attachShader( program, this.createShader( id ) );
+    } );
+
     gl.linkProgram( program );
 
     if ( gl.getProgramParameter( program, gl.LINKS_STATUS ) ) {
@@ -48,7 +51,7 @@ class TGContext {
   }
 
   bindVbos( vboAttribs ) {
-    vboAttribs.map(( vboAttrib ) => {
+    vboAttribs.map( ( vboAttrib ) => {
       this.bindVbo( vboAttrib.name, vboAttrib.vertices, vboAttrib.stride );
     });
   }
