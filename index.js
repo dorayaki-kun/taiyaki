@@ -1,1 +1,1 @@
-module.exports = require('./src/RenderingContext.js');
+module.exports = require('./build/src/RenderingContext.js');
