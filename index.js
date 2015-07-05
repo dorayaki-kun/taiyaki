@@ -1,1 +1,1 @@
-module.exports = require('./src/TGContext'); 
+module.exports = require('./src/RenderingContext.js');
