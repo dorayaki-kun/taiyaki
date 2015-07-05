@@ -13,10 +13,8 @@ class RenderingContext {
   createProgram( ids ) {
     let gl      = this.gl;
     let program = gl.createProgram();
-    let shaders = [];
     ids.map( ( id ) => {
-      // gl.attachShader( program, this.createShader( id ) );
-      shaders.push( this.createShader( id ) );
+      gl.attachShader( program, this.createShader( id ) );
     } );
 
     gl.linkProgram( program );
