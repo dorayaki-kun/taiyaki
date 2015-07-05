@@ -17,7 +17,7 @@ class RenderingContext {
 
     gl.linkProgram( program );
 
-    if ( gl.getProgramParameter( program, gl.LINKS_STATUS ) ) {
+    if ( gl.getProgramParameter( program, gl.LINK_STATUS ) ) {
       gl.useProgram( program );
       this.program = program;
     } else {
