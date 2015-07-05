@@ -1,5 +1,5 @@
 'use strict';
-class TGContext {
+class RenderingContext {
   constructor( id ) {
     let canvas   = document.getElementById( id );
     this.gl      = canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' );
@@ -9,9 +9,10 @@ class TGContext {
   createProgram( ids ) {
     let gl      = this.gl;
     let program = gl.createProgram();
-
+    let shaders = [];
     ids.map( ( id ) => {
-      gl.attachShader( program, this.createShader( id ) );
+      // gl.attachShader( program, this.createShader( id ) );
+      shaders.push( this.createShader( id ) );
     } );
 
     gl.linkProgram( program );
@@ -141,4 +142,4 @@ class TGContext {
   }
 }
 
-exports = {TGContext};
+exports = {RenderingContext};
