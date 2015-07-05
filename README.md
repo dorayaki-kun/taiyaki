@@ -17,13 +17,14 @@ context.createProgram( [ 'vs', 'fs' ] );
 
 context.bindVbos([
   { name: 'positions', vertices: positions, stride: 3 },
-  { name: 'colors',    vertices: colors, stride: 4 },
-  { name: 'normals',   vertices: normals, stride: 3 },
+  { name: 'colors',    vertices: colors,    stride: 4 },
+  { name: 'normals',   vertices: normals,   stride: 3 },
 ]);
 
 context.bindIbo( indexes );
 
-context.enableDepthTest();
+context.enable( context.gl.DEPTH_TEST );
+context.depthFunc( context.gl.gl.LEQUAL );
 
 ...
 
