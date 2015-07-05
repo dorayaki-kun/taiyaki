@@ -133,6 +133,25 @@ class RenderingContext {
     }
   }
 
+  clear( color, viewport, clearDepth = 1.0 ) {
+    let gl = this.gl;
+
+    if ( color ) {
+      gl.clearColor( color.r, color.g, color.b, color.a );
+    } else {
+      gl.clearColor( 0.3, 0.3, 0.3, 1.0 );
+    }
+
+    if ( viewport ) {
+      gl.viewport( viewport.x, viewport.y, viewport.width, viewport.height );
+    } else {
+      gl.viewport( 0, 0, this.canvas.width, this.canvas.height );
+    }
+
+    gl.clearDepth( clearDepth );
+    gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+  }
+
   drawArrays( mode, count, first = 0 ) {
     let gl = this.gl;
     gl.drawArrays( mode, first, count );
