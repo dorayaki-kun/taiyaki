@@ -4,6 +4,10 @@ class RenderingContext {
     let canvas   = document.getElementById( id );
     this.gl      = canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' );
     this.program = null;
+
+    let canvasSize = Math.min( window.innerWidth, window.innerHeight );
+    canvas.width  = canvasSize;
+    canvas.height = canvasSize;
   }
 
   createProgram( ids ) {
