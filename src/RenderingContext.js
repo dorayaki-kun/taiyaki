@@ -87,10 +87,16 @@ class RenderingContext {
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, ibo );
   }
 
-  enableDepthTest() {
-    let gl = this.gl;
-    gl.enable( gl.DEPTH_TEST );
-    gl.depthFunc( gl.LEQUAL );
+  enable( cap ) {
+    this.gl.enable( cap );
+  }
+
+  disable( cap ) {
+    this.gl.disable( cap );
+  }
+
+  depthFunc( type ) {
+    this.gl.depthFunc( type );
   }
 
   // uniform bind
