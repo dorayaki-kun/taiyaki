@@ -24,7 +24,7 @@ context.bindVbos([
 context.bindIbo( indexes );
 
 context.enable( context.gl.DEPTH_TEST );
-context.depthFunc( context.gl.gl.LEQUAL );
+context.depthFunc( context.gl.LEQUAL );
 
 ...
 
