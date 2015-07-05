@@ -170,4 +170,4 @@ class RenderingContext {
   }
 }
 
-exports = {RenderingContext};
+export {RenderingContext};
