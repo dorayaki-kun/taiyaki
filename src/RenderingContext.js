@@ -14,7 +14,7 @@ class RenderingContext {
     let gl      = this.gl;
     let program = gl.createProgram();
 
-    ids.map( ( id ) => {
+    ids.forEach( ( id ) => {
       gl.attachShader( program, this.createShader( id ) );
     } );
 
@@ -54,7 +54,7 @@ class RenderingContext {
   }
 
   bindVbos( vboAttribs ) {
-    vboAttribs.map( ( vboAttrib ) => {
+    vboAttribs.forEach( ( vboAttrib ) => {
       this.bindVbo( vboAttrib.name, vboAttrib.vertices, vboAttrib.stride );
     });
   }
@@ -100,7 +100,7 @@ class RenderingContext {
 
   // uniform bind
   bindUniforms( uniformAttribs ) {
-    uniformAttribs.map( ( uniformAttrib ) =>
+    uniformAttribs.forEach( ( uniformAttrib ) =>
                             this.bindUniform( uniformAttrib.name,
                                               uniformAttrib.type,
                                               uniformAttrib.value ) );
