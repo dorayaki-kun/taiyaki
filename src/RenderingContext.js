@@ -8,24 +8,23 @@ class RenderingContext {
 
     this.canvas  = canvas;
     this.gl      = canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' );
-    this.program = null;
   }
 
   createProgram( ids ) {
     let gl      = this.gl;
     let program = gl.createProgram();
+
     ids.map( ( id ) => {
       gl.attachShader( program, this.createShader( id ) );
     } );
 
     gl.linkProgram( program );
 
-    if ( gl.getProgramParameter( program, gl.LINK_STATUS ) ) {
-      gl.useProgram( program );
-      this.program = program;
-    } else {
+    if ( !gl.getProgramParameter( program, gl.LINK_STATUS ) ) {
       console.error( gl.getProgramInfoLog( program ) );
     }
+
+    return program;
   }
 
   createShader( id ) {
