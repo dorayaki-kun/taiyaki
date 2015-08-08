@@ -59,13 +59,12 @@ class RenderingContext {
     });
   }
 
-  bindVbo( name, vertices, stride ) {
+  bindVbo( program, vboAttrib ) {
     let gl       = this.gl;
-    let program  = this.program;
-    let location = gl.getAttribLocation( program, name );
-    gl.bindBuffer( gl.ARRAY_BUFFER, this.createVbo( vertices ) );
+    let location = gl.getAttribLocation( program, vboAttrib.name );
+    gl.bindBuffer( gl.ARRAY_BUFFER, this.createVbo( vboAttrib.value ) );
     gl.enableVertexAttribArray( location );
-    gl.vertexAttribPointer( location, stride, gl.FLOAT, false, 0, 0 );
+    gl.vertexAttribPointer( location, vboAttrib.stride, gl.FLOAT, false, 0, 0 );
   }
 
   createVbo( vertices ) {
