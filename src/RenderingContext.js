@@ -67,11 +67,11 @@ class RenderingContext {
     gl.vertexAttribPointer( location, vboAttrib.stride, gl.FLOAT, false, 0, 0 );
   }
 
-  createVbo( vertices ) {
+  createVbo( value ) {
     let gl  = this.gl;
     let vbo = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, vbo );
-    gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( vertices ), gl.STATIC_DRAW );
+    gl.bufferData( gl.ARRAY_BUFFER, new Float32Array( value ), gl.STATIC_DRAW );
     gl.bindBuffer( gl.ARRAY_BUFFER, null );
     return vbo;
   }
