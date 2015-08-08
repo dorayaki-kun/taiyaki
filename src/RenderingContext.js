@@ -1,13 +1,9 @@
 'use strict';
 class RenderingContext {
-  constructor( id ) {
-    let canvas     = document.getElementById( id );
-    let canvasSize = Math.min( window.innerWidth, window.innerHeight );
-    canvas.width   = canvasSize;
-    canvas.height  = canvasSize;
-
+  constructor( canvas ) {
     this.canvas  = canvas;
-    this.gl      = canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' );
+    this.gl      = canvas.getContext( 'webgl' ) ||
+                      canvas.getContext( 'experimental-webgl' );
   }
 
   createProgram( ids ) {
