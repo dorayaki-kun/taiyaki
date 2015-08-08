@@ -98,7 +98,6 @@ class RenderingContext {
     this.gl.depthFunc( type );
   }
 
-  // uniform bind
   bindUniforms( uniformAttribs ) {
     uniformAttribs.forEach( ( uniformAttrib ) =>
                             this.bindUniform( uniformAttrib.name,
