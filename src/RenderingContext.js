@@ -23,6 +23,10 @@ class RenderingContext {
     return program;
   }
 
+  useProgram( program ) {
+    this.gl.useProgram( program );
+  }
+
   createShader( id ) {
     let gl     = this.gl;
     let source = document.getElementById( id );
