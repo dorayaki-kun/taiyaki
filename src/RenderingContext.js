@@ -139,23 +139,18 @@ class RenderingContext {
     }
   }
 
-  clear( color, viewport, clearDepth = 1.0 ) {
+  clear( color, depth ) {
     let gl = this.gl;
+    let flag = gl.COLOR_BUFFER_BIT;
 
-    if ( color ) {
-      gl.clearColor( color.r, color.g, color.b, color.a );
-    } else {
-      gl.clearColor( 0.3, 0.3, 0.3, 1.0 );
+    gl.clearColor( color.r, color.g, color.b, color.a );
+
+    if ( depth ) {
+      gl.clearDepth( depth );
+      flag = flag | gl.DEPTH_BUFFER_BIT;
     }
 
-    if ( viewport ) {
-      gl.viewport( viewport.x, viewport.y, viewport.width, viewport.height );
-    } else {
-      gl.viewport( 0, 0, this.canvas.width, this.canvas.height );
-    }
-
-    gl.clearDepth( clearDepth );
-    gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+    gl.clear( flag );
   }
 
   drawArrays( mode, count, first = 0 ) {
