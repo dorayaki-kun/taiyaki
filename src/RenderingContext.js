@@ -53,9 +53,9 @@ class RenderingContext {
     return shader;
   }
 
-  bindVbos( vboAttribs ) {
+  bindVbos( program, vboAttribs ) {
     vboAttribs.forEach( ( vboAttrib ) => {
-      this.bindVbo( vboAttrib.name, vboAttrib.vertices, vboAttrib.stride );
+      this.bindVbo( program, vboAttrib );
     });
   }
 
