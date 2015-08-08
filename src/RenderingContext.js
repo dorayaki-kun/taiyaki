@@ -153,6 +153,14 @@ class RenderingContext {
     gl.clear( flag );
   }
 
+  viewport( viewport ) {
+    this.gl.viewport(
+      viewport.x,
+      viewport.y,
+      viewport.width,
+      viewport.height);
+  }
+
   drawArrays( mode, count, first = 0 ) {
     let gl = this.gl;
     gl.drawArrays( mode, first, count );
