@@ -156,20 +156,39 @@ class RenderingContext {
     this.gl.disable( cap );
   }
 
-  depthFunc( type ) {
-    this.gl.depthFunc( type );
-  }
-
-  bindUniforms( uniformAttribs ) {
-    uniformAttribs.forEach( ( uniformAttrib ) =>
-                            this.bindUniform( uniformAttrib.name,
-                                              uniformAttrib.type,
-                                              uniformAttrib.value ) );
-  }
-
-  bindUniform( name, type, value ) {
+  toggleCulFace( enable ) {
     let gl = this.gl;
-    let location = gl.getUniformLocation( this.program, name );
+    if ( enable ) {
+      gl.enable( gl.CULL_FACE );
+    } else {
+      gl.disable( gl.CULL_FACE );
+    }
+  }
+
+  toggleDepthFunc( enable ) {
+    let gl = this.gl;
+    if ( enable ) {
+      gl.enable( gl.DEPTH_TEST );
+    } else {
+      gl.disable( gl.DEPTH_TEST );
+    }
+  }
+
+  depthFunc() {
+    let gl = this.gl;
+    gl.depthFunc( gl.LEQUAL );
+  }
+
+  bindUniforms( program, uniformAttribs ) {
+    uniformAttribs.forEach( ( uniformAttrib ) => {
+      this.bindUniform( program, uniformAttrib );
+    });
+  }
+
+  bindUniform( program, uniformAttrib ) {
+    let gl = this.gl;
+    let {name, type, value} = uniformAttrib;
+    let location = gl.getUniformLocation( program, name );
 
     switch ( type ) {
     case 'matrix4fv':
