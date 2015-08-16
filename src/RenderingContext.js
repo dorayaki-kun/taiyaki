@@ -139,11 +139,11 @@ class RenderingContext {
     return vbo;
   }
 
-  bindIbo( indexes ) {
+  bindIbo( index ) {
     let gl  = this.gl;
     let ibo = gl.createBuffer();
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, ibo );
-    gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, new Int16Array( indexes ), gl.STATIC_DRAW );
+    gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, new Int16Array( index ), gl.STATIC_DRAW );
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, null );
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, ibo );
   }
