@@ -54,6 +54,68 @@ class RenderingContext {
     return shader;
   }
 
+  bindFramebuffer( frameBuffer ) {
+    this.gl.bindFramebuffer( this.gl.FRAMEBUFFER, frameBuffer );
+  }
+
+  createFrameBuffer( width, height ) {
+    let gl = this.gl;
+    let frameBuffer = gl.createFramebuffer();
+
+    gl.bindFramebuffer( gl.FRAMEBUFFER, frameBuffer);
+
+    let renderBuffer = gl.createRenderbuffer();
+    gl.bindRenderbuffer( gl.RENDERBUFFER, renderBuffer );
+
+    gl.renderbufferStorage( gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, width, height );
+    gl.framebufferRenderbuffer(
+      gl.FRAMEBUFFER,
+      gl.DEPTH_ATTACHMENT,
+      gl.RENDERBUFFER,
+      renderBuffer
+    );
+
+    let texture = this.createFrameBufferTexture( width, height );
+    gl.bindRenderbuffer( gl.RENDERBUFFER, null );
+    gl.bindFramebuffer( gl.FRAMEBUFFER, null );
+
+    return {value : frameBuffer, renderbuffer : renderBuffer, texture : texture};
+  }
+
+  createFrameBufferTexture( width, height ) {
+    let gl = this.gl;
+    let texture = gl.createTexture();
+    gl.bindTexture( gl.TEXTURE_2D, texture );
+
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      width,
+      height,
+      0,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      null);
+
+    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR );
+    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR );
+
+    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT );
+    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT );
+    gl.framebufferTexture2D(
+      gl.FRAMEBUFFER,
+      gl.COLOR_ATTACHMENT0,
+      gl.TEXTURE_2D,
+      texture,
+      0
+    );
+
+    gl.bindTexture( gl.TEXTURE_2D, null );
+
+    return texture;
+  }
+
   bindVbos( program, vboAttribs ) {
     vboAttribs.forEach( ( vboAttrib ) => {
       this.bindVbo( program, vboAttrib );
