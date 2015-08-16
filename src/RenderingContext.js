@@ -148,6 +148,12 @@ class RenderingContext {
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, ibo );
   }
 
+  bindTexture( texture, slot ) {
+    let gl = this.gl;
+    gl.activeTexture( gl.TEXTURE0 + slot );
+    gl.bindTexture( gl.TEXTURE_2D, texture );
+  }
+
   enable( cap ) {
     this.gl.enable( cap );
   }
