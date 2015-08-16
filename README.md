@@ -11,24 +11,24 @@ The origin of the name is the famous song in Japan.
 ``` js
 var Context = require( 'taiyaki' );
 
-var context = new Context( 'canvas' );
+var ctx = new Context( 'canvas' );
 
-context.createProgram( [ 'vs', 'fs' ] );
+ctx.createProgram( [ 'vs', 'fs' ] );
 
-context.bindVbos([
-  { name: 'positions', vertices: positions, stride: 3 },
-  { name: 'colors',    vertices: colors,    stride: 4 },
-  { name: 'normals',   vertices: normals,   stride: 3 },
+ctx.bindVbos([
+  { name: 'positions', value: positions, stride: 3 },
+  { name: 'colors',    value: colors,    stride: 4 },
+  { name: 'normals',   value: normals,   stride: 3 },
 ]);
 
-context.bindIbo( indexes );
+ctx.bindIbo( indexes );
 
-context.enable( context.gl.DEPTH_TEST );
-context.depthFunc( context.gl.LEQUAL );
+ctx.toggleDepthFunc( true );
+ctx.depthFunc();
 
 ...
 
-context.bindUniforms( [
+ctx.bindUniforms( [
   { name: 'mvpMatrix',      type: 'matrix4fv', value: mvpMatrix },
   { name: 'invMatrix',      type: 'matrix4fv', value: invMatrix },
   { name: 'lightDirection', type: '3fv',       value: lightDirection },
@@ -37,9 +37,10 @@ context.bindUniforms( [
   { name: 'ambientColor',   type: '4fv',       value: ambientColor },
 ]);
 
-context.clear();
+ctx.clear( { r: 0.3, g: 0.3, b:0.3, a: 1 }, 1.0 );
+ctx.viewport( { x: 0, y: 0, width: 512, height: 512 } );
 
-context.drawElements( context.gl.TRIANGLES, indexes.length );
+ctx.drawElements( ctx.gl.TRIANGLES, indexes.length );
 ```
 
 ## Licence
