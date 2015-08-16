@@ -1,9 +1,10 @@
 'use strict';
 class RenderingContext {
-  constructor( canvas ) {
-    this.canvas  = canvas;
-    this.gl      = canvas.getContext( 'webgl' ) ||
-                      canvas.getContext( 'experimental-webgl' );
+  constructor( id ) {
+    const canvas = document.getElementById( id );
+    this.canvas = canvas;
+    this.gl = canvas.getContext( 'webgl' ) ||
+                canvas.getContext( 'experimental-webgl' );
   }
 
   createProgram( ids ) {
