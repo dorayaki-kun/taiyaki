@@ -9,7 +9,8 @@ The origin of the name is the famous song in Japan.
 ## Example
 
 ``` js
-var Context = require( 'taiyaki' );
+var taiyaki = require( 'taiyaki' );
+var Context = taiyaki.RenderingContext;
 
 var ctx = new Context( 'canvas' );
 
