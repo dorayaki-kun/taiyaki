@@ -147,6 +147,28 @@ class RenderingContext {
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, null );
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, ibo );
   }
+  
+  createCanvasTexture( canvas2d ) {
+    const gl = this.gl;
+    const texture = gl.createTexture();
+    
+    gl.bindTexture( gl.TEXTURE_2D, texture );
+    gl.texImage2D(
+      gl.TEXTURE_2D, 
+      0, 
+      gl.RGBA, 
+      gl.RGBA, 
+      gl.UNSIGNED_BYTE, 
+      canvas2d
+      );
+    gl.generateMipmap( gl.TEXTURE_2D );
+    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR );
+    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR );
+    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT );
+    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT );
+    
+    return texture;
+  }
 
   bindTexture( texture, slot ) {
     let gl = this.gl;
