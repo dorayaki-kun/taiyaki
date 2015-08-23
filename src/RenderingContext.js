@@ -206,6 +206,31 @@ class RenderingContext {
     let gl = this.gl;
     gl.depthFunc( gl.LEQUAL );
   }
+  
+  toggleBlend( enable ) {
+    const gl = this.gl;
+    if ( enable ) {
+      gl.enable( gl.BLEND );
+    } else {
+      gl.disable( gl.BLEND );
+    }
+  }
+  
+  setBlending( type ) {
+    const gl = this.gl;
+    
+    switch ( type ) {
+    case RenderingContext.AdditiveBlending:
+      gl.blendFuncSeparate( gl.ONE, gl.ONE, gl.ONE, gl.ONE );
+      break;
+    default:
+      break;  
+    }
+  }
+  
+  static get AdditiveBlending() {
+    return 'AdditiveBlending';
+  }
 
   bindUniforms( program, uniformAttribs ) {
     uniformAttribs.forEach( ( uniformAttrib ) => {
