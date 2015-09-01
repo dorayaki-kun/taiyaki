@@ -14,7 +14,8 @@ var Context = taiyaki.RenderingContext;
 
 var ctx = new Context( 'canvas' );
 
-ctx.createProgram( [ 'vs', 'fs' ] );
+var program = ctx.createProgram( [ 'vs', 'fs' ] );
+ctx.useProgram( program );
 
 ctx.bindVbos([
   { name: 'positions', value: positions, stride: 3 },
@@ -22,7 +23,7 @@ ctx.bindVbos([
   { name: 'normals',   value: normals,   stride: 3 },
 ]);
 
-ctx.bindIbo( indexes );
+ctx.bindIbo( index );
 
 ctx.toggleDepthFunc( true );
 ctx.depthFunc();
