@@ -9,12 +9,11 @@ The origin of the name is the famous song in Japan.
 ## Example
 
 ``` js
-var taiyaki = require( 'taiyaki' );
-var Context = taiyaki.RenderingContext;
+import { RenderingContext } from 'taiyaki';
 
-var ctx = new Context( 'canvas' );
+const ctx = new RenderingContext( 'canvas' );
 
-var program = ctx.createProgram( [ 'vs', 'fs' ] );
+const program = ctx.createProgram( [ 'vs', 'fs' ] );
 ctx.useProgram( program );
 
 ctx.bindVbos([
