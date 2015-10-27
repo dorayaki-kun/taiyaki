@@ -78,7 +78,7 @@ class RenderingContext {
     gl.bindRenderbuffer( gl.RENDERBUFFER, null );
     gl.bindFramebuffer( gl.FRAMEBUFFER, null );
 
-    return {value : frameBuffer, renderbuffer : renderBuffer, texture : texture};
+    return { value : frameBuffer, renderbuffer : renderBuffer, texture : texture };
   }
 
   createFrameBufferTexture( width, height ) {
@@ -146,18 +146,18 @@ class RenderingContext {
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, null );
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, ibo );
   }
-  
+
   createCanvasTexture( canvas2d ) {
     const gl = this.gl;
     const texture = gl.createTexture();
-    
+
     gl.bindTexture( gl.TEXTURE_2D, texture );
     gl.texImage2D(
-      gl.TEXTURE_2D, 
-      0, 
-      gl.RGBA, 
-      gl.RGBA, 
-      gl.UNSIGNED_BYTE, 
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
       canvas2d
       );
     gl.generateMipmap( gl.TEXTURE_2D );
@@ -165,9 +165,9 @@ class RenderingContext {
     gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR );
     gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT );
     gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT );
-    
+
     gl.bindTexture( gl.TEXTURE_2D, null );
-    
+
     return texture;
   }
 
@@ -207,7 +207,7 @@ class RenderingContext {
     const gl = this.gl;
     gl.depthFunc( gl.LEQUAL );
   }
-  
+
   toggleBlend( enable ) {
     const gl = this.gl;
     if ( enable ) {
@@ -216,19 +216,19 @@ class RenderingContext {
       gl.disable( gl.BLEND );
     }
   }
-  
+
   setBlending( type ) {
     const gl = this.gl;
-    
+
     switch ( type ) {
     case RenderingContext.AdditiveBlending:
       gl.blendFuncSeparate( gl.ONE, gl.ONE, gl.ONE, gl.ONE );
       break;
     default:
-      break;  
+      break;
     }
   }
-  
+
   static get AdditiveBlending() {
     return 'AdditiveBlending';
   }
