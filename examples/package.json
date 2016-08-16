@@ -1,0 +1,22 @@
+{
+  "name": "examples",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify ./index.js > ./bundle.js",
+    "server": "browser-sync start --server ./",
+    "start": "npm run build & npm run server"
+  },
+  "keywords": [],
+  "author": "dorayakikun",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "2.14.0",
+    "browserify": "13.1.0"
+  },
+  "dependencies": {
+    "gl-matrix-mat4": "2.2.1-npm",
+    "gl-matrix-quat": "2.2.1-npm"
+  }
+}
