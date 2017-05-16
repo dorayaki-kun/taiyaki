@@ -3,29 +3,35 @@
 'use strict'
 
 type TYVBO = {
-  name: string;
-  value: number;
-  stride: number;
+  name: string,
+  value: number,
+  stride: number
 }
 
 type TYUniform = {
-  name: string;
-  type: string;
-  value: any;
+  name: string,
+  type: string,
+  value: any
 }
 
 type TYColor = {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
+  r: number,
+  g: number,
+  b: number,
+  a: number
 }
 
 type TYViewport = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+  x: number,
+  y: number,
+  width: number,
+  height: number
+}
+
+type TYFrameBuffer = {
+  value: WebGLFramebuffer,
+  renderbuffer: WebGLRenderbuffer,
+  texture: WebGLTexture
 }
 
 class RenderingContext {
@@ -43,7 +49,7 @@ class RenderingContext {
 
     const gl = canvas.getContext('webgl')
     if (gl == null) {
-      throw new Error('')
+      throw new Error('Missing WebGLRenderingContext')
     }
     this.gl = gl
   }
@@ -59,7 +65,7 @@ class RenderingContext {
     gl.linkProgram(program)
 
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error(gl.getProgramInfoLog(program))
+      throw new Error(gl.getProgramInfoLog(program))
     }
 
     return program
@@ -74,7 +80,7 @@ class RenderingContext {
     const source = ((document.getElementById(id): any): ?HTMLScriptElement)
 
     if (source == null) {
-      throw new Error('')
+      throw new Error(`Missing HTMLScriptElement id: ${id}`)
     }
 
     let shader: WebGLShader
@@ -91,7 +97,7 @@ class RenderingContext {
     }
 
     if (shader == null) {
-      throw new Error('')
+      throw new Error('Missing WebGLShader')
     }
 
     gl.shaderSource(shader, source.text)
@@ -108,7 +114,7 @@ class RenderingContext {
     this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, frameBuffer)
   }
 
-  createFrameBuffer(width: number, height: number) {
+  createFrameBuffer(width: number, height: number): TYFrameBuffer {
     const gl = this.gl
     const frameBuffer = gl.createFramebuffer()
 
@@ -181,7 +187,7 @@ class RenderingContext {
     gl.vertexAttribPointer(location, vbo.stride, gl.FLOAT, false, 0, 0)
   }
 
-  createVbo(value: number) {
+  createVbo(value: number): WebGLBuffer {
     const gl = this.gl
     const vbo = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo)
