@@ -49,7 +49,7 @@ class RenderingContext {
 
     const gl = canvas.getContext('webgl')
     if (gl == null) {
-      throw new Error('')
+      throw new Error('Missing WebGLRenderingContext')
     }
     this.gl = gl
   }
@@ -65,7 +65,7 @@ class RenderingContext {
     gl.linkProgram(program)
 
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error(gl.getProgramInfoLog(program))
+      throw new Error(gl.getProgramInfoLog(program))
     }
 
     return program
@@ -80,7 +80,7 @@ class RenderingContext {
     const source = ((document.getElementById(id): any): ?HTMLScriptElement)
 
     if (source == null) {
-      throw new Error('')
+      throw new Error(`Missing HTMLScriptElement id: ${id}`)
     }
 
     let shader: WebGLShader
@@ -97,7 +97,7 @@ class RenderingContext {
     }
 
     if (shader == null) {
-      throw new Error('')
+      throw new Error('Missing WebGLShader')
     }
 
     gl.shaderSource(shader, source.text)
