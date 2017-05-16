@@ -47,4 +47,4 @@ ctx.drawElements(ctx.gl.TRIANGLES, indexes.length)
 
 ## Licence
 
-The MIT License (MIT) Copyright (c) 2015 dorayaki-kun
+The MIT License (MIT) Copyright (c) 2015 dorayakikun
