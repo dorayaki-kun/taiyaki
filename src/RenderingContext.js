@@ -2,6 +2,32 @@
 
 'use strict'
 
+type TYVBO = {
+  name: string;
+  value: number;
+  stride: number;
+}
+
+type TYUniform = {
+  name: string;
+  type: string;
+  value: any;
+}
+
+type TYColor = {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+type TYViewport = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 class RenderingContext {
   canvas: HTMLCanvasElement
   gl: WebGLRenderingContext
@@ -141,20 +167,18 @@ class RenderingContext {
     return texture
   }
 
-  bindVbos(program: WebGLProgram, vboAttribs: Array<any>) {
-    // TODO VBOObject を作成する
-    vboAttribs.forEach(vboAttrib => {
-      this.bindVbo(program, vboAttrib)
+  bindVbos(program: WebGLProgram, vbos: Array<TYVBO>) {
+    vbos.forEach(vbo => {
+      this.bindVbo(program, vbo)
     })
   }
 
-  bindVbo(program: WebGLProgram, vboAttrib: any) {
-    // TODO VBOObject を作成する
+  bindVbo(program: WebGLProgram, vbo: TYVBO) {
     const gl = this.gl
-    const location: number = gl.getAttribLocation(program, vboAttrib.name)
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.createVbo(vboAttrib.value))
+    const location: number = gl.getAttribLocation(program, vbo.name)
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.createVbo(vbo.value))
     gl.enableVertexAttribArray(location)
-    gl.vertexAttribPointer(location, vboAttrib.stride, gl.FLOAT, false, 0, 0)
+    gl.vertexAttribPointer(location, vbo.stride, gl.FLOAT, false, 0, 0)
   }
 
   createVbo(value: number) {
@@ -251,7 +275,6 @@ class RenderingContext {
 
   setBlending(type: string) {
     const gl = this.gl
-
     switch (type) {
       case RenderingContext.AdditiveBlending:
         gl.blendFuncSeparate(gl.ONE, gl.ONE, gl.ONE, gl.ONE)
@@ -261,17 +284,15 @@ class RenderingContext {
     }
   }
 
-  bindUniforms(program: WebGLProgram, uniformAttribs: Array<any>) {
-    // TODO uniformAttrib
-    uniformAttribs.forEach(uniformAttrib => {
-      this.bindUniform(program, uniformAttrib)
+  bindUniforms(program: WebGLProgram, uniforms: Array<TYUniform>) {
+    uniforms.forEach(uniform => {
+      this.bindUniform(program, uniform)
     })
   }
 
-  bindUniform(program: WebGLProgram, uniformAttrib: any) {
-    // TODO uniformAttrib
+  bindUniform(program: WebGLProgram, uniform: TYUniform) {
     const gl = this.gl
-    const { name, type, value } = uniformAttrib
+    const { name, type, value } = uniform
     const location: WebGLUniformLocation = gl.getUniformLocation(program, name)
 
     switch (type) {
@@ -303,8 +324,7 @@ class RenderingContext {
     }
   }
 
-  clear(color: any, depth: number) {
-    // TODO color object
+  clear(color: TYColor, depth: number) {
     const gl = this.gl
     let flag = gl.COLOR_BUFFER_BIT
 
@@ -318,8 +338,7 @@ class RenderingContext {
     gl.clear(flag)
   }
 
-  viewport(viewport: any) {
-    // TODO view port object
+  viewport(viewport: TYViewport) {
     this.gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height)
   }
 

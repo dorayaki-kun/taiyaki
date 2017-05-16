@@ -14,8 +14,16 @@ var RenderingContext = function () {
     _classCallCheck(this, RenderingContext);
 
     var canvas = document.getElementById(id);
+    if (canvas == null) {
+      throw new Error('Missing HTMLCanvasElement id: ' + id);
+    }
     this.canvas = canvas;
-    this.gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+    var gl = canvas.getContext('webgl');
+    if (gl == null) {
+      throw new Error('');
+    }
+    this.gl = gl;
   }
 
   _createClass(RenderingContext, [{
@@ -48,6 +56,11 @@ var RenderingContext = function () {
     value: function createShader(id) {
       var gl = this.gl;
       var source = document.getElementById(id);
+
+      if (source == null) {
+        throw new Error('');
+      }
+
       var shader = void 0;
 
       switch (source.type) {
@@ -58,13 +71,18 @@ var RenderingContext = function () {
           shader = gl.createShader(gl.FRAGMENT_SHADER);
           break;
         default:
-          console.error('The shader type is not an accepted value.');
+          throw new Error('The shader type is not an accepted value.');
       }
+
+      if (shader == null) {
+        throw new Error('');
+      }
+
       gl.shaderSource(shader, source.text);
       gl.compileShader(shader);
 
       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error(gl.getShaderInfoLog(shader));
+        throw new Error(gl.getShaderInfoLog(shader));
       }
 
       return shader;
@@ -119,6 +137,7 @@ var RenderingContext = function () {
     value: function bindVbos(program, vboAttribs) {
       var _this2 = this;
 
+      // TODO VBOObject を作成する
       vboAttribs.forEach(function (vboAttrib) {
         _this2.bindVbo(program, vboAttrib);
       });
@@ -126,6 +145,7 @@ var RenderingContext = function () {
   }, {
     key: 'bindVbo',
     value: function bindVbo(program, vboAttrib) {
+      // TODO VBOObject を作成する
       var gl = this.gl;
       var location = gl.getAttribLocation(program, vboAttrib.name);
       gl.bindBuffer(gl.ARRAY_BUFFER, this.createVbo(vboAttrib.value));
@@ -241,6 +261,7 @@ var RenderingContext = function () {
     value: function bindUniforms(program, uniformAttribs) {
       var _this3 = this;
 
+      // TODO uniformAttrib
       uniformAttribs.forEach(function (uniformAttrib) {
         _this3.bindUniform(program, uniformAttrib);
       });
@@ -248,10 +269,11 @@ var RenderingContext = function () {
   }, {
     key: 'bindUniform',
     value: function bindUniform(program, uniformAttrib) {
+      // TODO uniformAttrib
       var gl = this.gl;
-      var name = uniformAttrib.name;
-      var type = uniformAttrib.type;
-      var value = uniformAttrib.value;
+      var name = uniformAttrib.name,
+          type = uniformAttrib.type,
+          value = uniformAttrib.value;
 
       var location = gl.getUniformLocation(program, name);
 
@@ -286,6 +308,7 @@ var RenderingContext = function () {
   }, {
     key: 'clear',
     value: function clear(color, depth) {
+      // TODO color object
       var gl = this.gl;
       var flag = gl.COLOR_BUFFER_BIT;
 
@@ -301,12 +324,13 @@ var RenderingContext = function () {
   }, {
     key: 'viewport',
     value: function viewport(_viewport) {
+      // TODO view port object
       this.gl.viewport(_viewport.x, _viewport.y, _viewport.width, _viewport.height);
     }
   }, {
     key: 'drawArrays',
     value: function drawArrays(mode, count) {
-      var first = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
+      var first = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
       var gl = this.gl;
       gl.drawArrays(mode, first, count);
@@ -314,21 +338,17 @@ var RenderingContext = function () {
   }, {
     key: 'drawElements',
     value: function drawElements(mode, count) {
-      var offset = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
+      var offset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
       var gl = this.gl;
       gl.drawElements(mode, count, gl.UNSIGNED_SHORT, offset);
-    }
-  }], [{
-    key: 'AdditiveBlending',
-    get: function get() {
-      return 'AdditiveBlending';
     }
   }]);
 
   return RenderingContext;
 }();
 
+RenderingContext.AdditiveBlending = 'AdditiveBlending';
 exports.RenderingContext = RenderingContext;
 },{}],2:[function(require,module,exports){
 function main() {
