@@ -1,17 +1,32 @@
+// @flow
+
 'use strict';
+
 class RenderingContext {
-  constructor( id ) {
-    const canvas = document.getElementById( id );
+  canvas: HTMLCanvasElement;
+  gl: WebGLRenderingContext;
+
+  static AdditiveBlending = 'AdditiveBlending';
+
+  constructor( id: string ) {
+    const canvas = ((document.getElementById( id ): any): ?HTMLCanvasElement);
+    if (canvas == null) {
+      throw new Error(`Missing HTMLCanvasElement id: ${id}`);
+    }
     this.canvas = canvas;
-    this.gl = canvas.getContext( 'webgl' ) ||
-                canvas.getContext( 'experimental-webgl' );
+
+    const gl = canvas.getContext( 'webgl' );
+    if (gl == null) {
+      throw new Error('');
+    }
+    this.gl = gl;
   }
 
-  createProgram( ids ) {
+  createProgram( ids: Array<string> ): WebGLProgram {
     const gl      = this.gl;
     const program = gl.createProgram();
 
-    ids.forEach( ( id ) => {
+    ids.forEach(id => {
       gl.attachShader( program, this.createShader( id ) );
     } );
 
@@ -24,14 +39,19 @@ class RenderingContext {
     return program;
   }
 
-  useProgram( program ) {
+  useProgram( program: WebGLProgram ) {
     this.gl.useProgram( program );
   }
 
-  createShader( id ) {
+  createShader( id: string ): WebGLShader {
     const gl     = this.gl;
-    const source = document.getElementById( id );
-    let shader;
+    const source = ((document.getElementById( id ): any): ?HTMLScriptElement);
+
+    if (source == null) {
+      throw new Error('');
+    }
+
+    let shader: WebGLShader;
 
     switch ( source.type ) {
     case 'x-shader/x-vertex':
@@ -41,23 +61,28 @@ class RenderingContext {
       shader = gl.createShader( gl.FRAGMENT_SHADER );
       break;
     default :
-      console.error( 'The shader type is not an accepted value.' );
+      throw new Error( 'The shader type is not an accepted value.' );
     }
+
+    if (shader == null) {
+      throw new Error('');
+    }
+
     gl.shaderSource( shader, source.text );
     gl.compileShader( shader );
 
     if ( !gl.getShaderParameter( shader, gl.COMPILE_STATUS ) ) {
-      console.error( gl.getShaderInfoLog( shader ) );
+      throw new Error( gl.getShaderInfoLog( shader ) );
     }
 
     return shader;
   }
 
-  bindFramebuffer( frameBuffer ) {
+  bindFramebuffer( frameBuffer: WebGLFramebuffer ) {
     this.gl.bindFramebuffer( this.gl.FRAMEBUFFER, frameBuffer );
   }
 
-  createFrameBuffer( width, height ) {
+  createFrameBuffer( width: number, height: number ) {
     const gl = this.gl;
     const frameBuffer = gl.createFramebuffer();
 
@@ -81,9 +106,9 @@ class RenderingContext {
     return { value : frameBuffer, renderbuffer : renderBuffer, texture : texture };
   }
 
-  createFrameBufferTexture( width, height ) {
+  createFrameBufferTexture( width: number, height: number ): WebGLTexture {
     const gl = this.gl;
-    const texture = gl.createTexture();
+    const texture: WebGLTexture = gl.createTexture();
     gl.bindTexture( gl.TEXTURE_2D, texture );
 
     gl.texImage2D(
@@ -115,21 +140,21 @@ class RenderingContext {
     return texture;
   }
 
-  bindVbos( program, vboAttribs ) {
+  bindVbos( program: WebGLProgram, vboAttribs: Array<any> ) {// TODO VBOObject を作成する
     vboAttribs.forEach( ( vboAttrib ) => {
       this.bindVbo( program, vboAttrib );
     });
   }
 
-  bindVbo( program, vboAttrib ) {
+  bindVbo( program: WebGLProgram, vboAttrib: any ) {// TODO VBOObject を作成する
     const gl       = this.gl;
-    const location = gl.getAttribLocation( program, vboAttrib.name );
+    const location: number = gl.getAttribLocation( program, vboAttrib.name );
     gl.bindBuffer( gl.ARRAY_BUFFER, this.createVbo( vboAttrib.value ) );
     gl.enableVertexAttribArray( location );
     gl.vertexAttribPointer( location, vboAttrib.stride, gl.FLOAT, false, 0, 0 );
   }
 
-  createVbo( value ) {
+  createVbo( value: number ) {
     const gl  = this.gl;
     const vbo = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, vbo );
@@ -138,18 +163,18 @@ class RenderingContext {
     return vbo;
   }
 
-  bindIbo( index ) {
+  bindIbo( index: number ) {
     const gl  = this.gl;
-    const ibo = gl.createBuffer();
+    const ibo: WebGLBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, ibo );
     gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, new Int16Array( index ), gl.STATIC_DRAW );
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, null );
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, ibo );
   }
 
-  createCanvasTexture( canvas2d ) {
+  createCanvasTexture( canvas2d: HTMLCanvasElement ): WebGLTexture {
     const gl = this.gl;
-    const texture = gl.createTexture();
+    const texture: WebGLTexture = gl.createTexture();
 
     gl.bindTexture( gl.TEXTURE_2D, texture );
     gl.texImage2D(
@@ -171,21 +196,21 @@ class RenderingContext {
     return texture;
   }
 
-  bindTexture( texture, slot ) {
+  bindTexture( texture: WebGLTexture, slot: number ) {
     const gl = this.gl;
     gl.activeTexture( gl.TEXTURE0 + slot );
     gl.bindTexture( gl.TEXTURE_2D, texture );
   }
 
-  enable( cap ) {
+  enable( cap: number ) {
     this.gl.enable( cap );
   }
 
-  disable( cap ) {
+  disable( cap: number ) {
     this.gl.disable( cap );
   }
 
-  toggleCulFace( enable ) {
+  toggleCulFace( enable: boolean ) {
     const gl = this.gl;
     if ( enable ) {
       gl.enable( gl.CULL_FACE );
@@ -194,7 +219,7 @@ class RenderingContext {
     }
   }
 
-  toggleDepthFunc( enable ) {
+  toggleDepthFunc( enable: boolean ) {
     const gl = this.gl;
     if ( enable ) {
       gl.enable( gl.DEPTH_TEST );
@@ -208,7 +233,7 @@ class RenderingContext {
     gl.depthFunc( gl.LEQUAL );
   }
 
-  toggleBlend( enable ) {
+  toggleBlend( enable: boolean ) {
     const gl = this.gl;
     if ( enable ) {
       gl.enable( gl.BLEND );
@@ -217,7 +242,7 @@ class RenderingContext {
     }
   }
 
-  setBlending( type ) {
+  setBlending( type: string ) {
     const gl = this.gl;
 
     switch ( type ) {
@@ -229,20 +254,16 @@ class RenderingContext {
     }
   }
 
-  static get AdditiveBlending() {
-    return 'AdditiveBlending';
-  }
-
-  bindUniforms( program, uniformAttribs ) {
-    uniformAttribs.forEach( ( uniformAttrib ) => {
+  bindUniforms( program: WebGLProgram, uniformAttribs: Array<any> ) {// TODO uniformAttrib
+    uniformAttribs.forEach(uniformAttrib => {
       this.bindUniform( program, uniformAttrib );
     });
   }
 
-  bindUniform( program, uniformAttrib ) {
+  bindUniform( program: WebGLProgram, uniformAttrib: any ) {// TODO uniformAttrib
     const gl = this.gl;
     const { name, type, value } = uniformAttrib;
-    const location = gl.getUniformLocation( program, name );
+    const location: WebGLUniformLocation = gl.getUniformLocation( program, name );
 
     switch ( type ) {
     case 'matrix4fv':
@@ -273,7 +294,7 @@ class RenderingContext {
     }
   }
 
-  clear( color, depth ) {
+  clear( color: any, depth: number ) {// TODO color object
     const gl = this.gl;
     let flag = gl.COLOR_BUFFER_BIT;
 
@@ -287,7 +308,7 @@ class RenderingContext {
     gl.clear( flag );
   }
 
-  viewport( viewport ) {
+  viewport( viewport: any ) {// TODO view port object
     this.gl.viewport(
       viewport.x,
       viewport.y,
@@ -295,12 +316,12 @@ class RenderingContext {
       viewport.height);
   }
 
-  drawArrays( mode, count, first = 0 ) {
+  drawArrays( mode: number, count: number, first: number = 0 ) {
     const gl = this.gl;
     gl.drawArrays( mode, first, count );
   }
 
-  drawElements( mode, count, offset = 0 ) {
+  drawElements( mode: number, count: number, offset: number = 0 ) {
     const gl = this.gl;
     gl.drawElements( mode, count, gl.UNSIGNED_SHORT, offset );
   }
