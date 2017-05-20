@@ -17,6 +17,7 @@
     "eslint-plugin-prettier": "2.0.1",
     "flow-bin": "0.46.0",
     "flow-typed": "^2.1.2",
+    "husky": "^0.13.3",
     "jasmine-core": "^2.6.2",
     "karma": "^1.7.0",
     "karma-babel-preprocessor": "^6.0.1",
@@ -49,6 +50,7 @@
     "flow": "flow",
     "prepublish": "npm run build",
     "karma": "karma start karma.conf.js --single-run",
+    "prepush": "npm run karma",
     "test": "echo \"Please run karma\""
   }
 }
