@@ -48,6 +48,7 @@
     "clean": "rm -rf build/src*",
     "flow": "flow",
     "prepublish": "npm run build",
-    "test": "karma start karma.conf.js --single-run"
+    "karma": "karma start karma.conf.js --single-run",
+    "test": "echo \"Please run karma\""
   }
 }
