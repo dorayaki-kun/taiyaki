@@ -1,7 +1,7 @@
 {
   "name": "taiyaki",
   "description": "the lightweight library of WebGL.",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "author": "dorayakikun",
   "devDependencies": {
     "babel-cli": "6.26.0",
