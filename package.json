@@ -19,7 +19,7 @@
     "flow-typed": "^2.1.2",
     "husky": "^0.14.3",
     "jasmine-core": "^2.6.2",
-    "karma": "^1.7.0",
+    "karma": "^2.0.0",
     "karma-babel-preprocessor": "^7.0.0",
     "karma-browserify": "5.1.2",
     "karma-chrome-launcher": "^2.1.1",
