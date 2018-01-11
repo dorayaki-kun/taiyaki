@@ -1,7 +1,7 @@
 {
   "name": "taiyaki",
   "description": "the lightweight library of WebGL.",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "author": "dorayakikun",
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -10,12 +10,12 @@
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-preset-es2015": "6.24.1",
     "babel-preset-flow": "6.23.0",
-    "babelify": "8.0.0",
-    "browserify": "^15.0.0",
+    "babelify": "^8.0.0",
+    "browserify": "^15.1.0",
     "eslint": "4.15.0",
-    "eslint-config-prettier": "2.9.0",
-    "eslint-plugin-prettier": "2.4.0",
+    "eslint-config-precure": "^0.13.0",
     "flow-bin": "0.63.0",
+    "flow-copy-source": "^1.2.1",
     "flow-typed": "^2.1.2",
     "husky": "^0.14.3",
     "jasmine-core": "^2.6.2",
@@ -25,6 +25,7 @@
     "karma-chrome-launcher": "^2.1.1",
     "karma-coverage": "^1.1.1",
     "karma-jasmine": "^1.1.0",
+    "lint-staged": "^6.0.0",
     "prettier": "1.10.0"
   },
   "files": [
@@ -39,18 +40,28 @@
     "WebGL"
   ],
   "license": "MIT",
-  "main": "index.js",
+  "lint-staged": {
+    ".{js,json,md}": [
+      "fmt",
+      "git add"
+    ]
+  },
+  "main": "build/src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/dorayakikun/taiyaki.git"
   },
   "scripts": {
-    "build": "babel src --out-dir build/src",
+    "build": "npm run build:js && npm run build:flow",
+    "build:js": "babel src --out-dir build/src",
+    "build:flow": "flow-copy-source -v  src build/src",
     "clean": "rm -rf build/src*",
     "flow": "flow",
-    "prepublish": "npm run build",
+    "fmt": "prettier --write '**/*.{js,json,md}'",
     "karma": "karma start karma.conf.js --single-run",
-    "prepush": "npm run karma",
+    "precommit": "lint-staged",
+    "prepublish": "precommit | npm run build",
+    "prepush": "precommit | npm run karma",
     "test": "echo \"Please run karma\""
   }
 }

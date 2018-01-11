@@ -5,33 +5,33 @@
 type TYVBO = {
   name: string,
   value: number,
-  stride: number
+  stride: number,
 }
 
 type TYUniform = {
   name: string,
   type: string,
-  value: any
+  value: any,
 }
 
 type TYColor = {
   r: number,
   g: number,
   b: number,
-  a: number
+  a: number,
 }
 
 type TYViewport = {
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
 }
 
 type TYFrameBuffer = {
   value: WebGLFramebuffer,
   renderbuffer: WebGLRenderbuffer,
-  texture: WebGLTexture
+  texture: WebGLTexture,
 }
 
 class RenderingContext {
@@ -42,13 +42,13 @@ class RenderingContext {
 
   constructor(id: string) {
     const canvas = ((document.getElementById(id): any): ?HTMLCanvasElement)
-    if (canvas == null) {
+    if (canvas === null) {
       throw new Error(`Missing HTMLCanvasElement id: ${id}`)
     }
     this.canvas = canvas
 
     const gl = canvas.getContext('webgl')
-    if (gl == null) {
+    if (gl === null) {
       throw new Error('Missing WebGLRenderingContext')
     }
     this.gl = gl
@@ -79,7 +79,7 @@ class RenderingContext {
     const gl = this.gl
     const source = ((document.getElementById(id): any): ?HTMLScriptElement)
 
-    if (source == null) {
+    if (source === null) {
       throw new Error(`Missing HTMLScriptElement id: ${id}`)
     }
 
@@ -96,7 +96,7 @@ class RenderingContext {
         throw new Error('The shader type is not an accepted value.')
     }
 
-    if (shader == null) {
+    if (shader === null) {
       throw new Error('Missing WebGLShader')
     }
 
@@ -135,7 +135,7 @@ class RenderingContext {
     gl.bindRenderbuffer(gl.RENDERBUFFER, null)
     gl.bindFramebuffer(gl.FRAMEBUFFER, null)
 
-    return { value: frameBuffer, renderbuffer: renderBuffer, texture: texture }
+    return { value: frameBuffer, renderbuffer: renderBuffer, texture }
   }
 
   createFrameBufferTexture(width: number, height: number): WebGLTexture {
@@ -338,7 +338,7 @@ class RenderingContext {
 
     if (depth) {
       gl.clearDepth(depth)
-      flag = flag | gl.DEPTH_BUFFER_BIT
+      flag = gl.DEPTH_BUFFER_BIT
     }
 
     gl.clear(flag)
