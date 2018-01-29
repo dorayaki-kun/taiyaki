@@ -13,7 +13,12 @@
     "babelify": "^8.0.0",
     "browserify": "^15.1.0",
     "eslint": "4.16.0",
-    "eslint-config-precure": "^2.0.0",
+    "eslint-config-fbjs": "^2.0.1",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-flowtype": "^2.42.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
+    "eslint-plugin-relay": "0.0.20",
     "flow-bin": "0.64.0",
     "flow-copy-source": "^1.2.1",
     "flow-typed": "^2.1.2",
@@ -26,7 +31,7 @@
     "karma-coverage": "^1.1.1",
     "karma-jasmine": "^1.1.0",
     "lint-staged": "^6.0.0",
-    "prettier": "1.10.0"
+    "prettier": "^1.10.1"
   },
   "files": [
     "README.md",
@@ -42,7 +47,7 @@
   "license": "MIT",
   "lint-staged": {
     ".{js,json,md}": [
-      "fmt",
+      "prettier --write",
       "git add"
     ]
   },
@@ -52,16 +57,14 @@
     "url": "https://github.com/dorayakikun/taiyaki.git"
   },
   "scripts": {
-    "build": "npm run build:js && npm run build:flow",
-    "build:js": "babel src --out-dir build/src",
-    "build:flow": "flow-copy-source -v  src build/src",
-    "clean": "rm -rf build/src*",
-    "flow": "flow",
+    "build": "babel src --out-dir build/src",
     "fmt": "prettier --write '**/*.{js,json,md}'",
+    "flow": "flow",
     "karma": "karma start karma.conf.js --single-run",
+    "lint": "eslint src",
     "precommit": "lint-staged",
-    "prepublish": "precommit | npm run build",
-    "prepush": "precommit | npm run karma",
+    "prepublish": "npm run build",
+    "prepush": "npm run build",
     "test": "echo \"Please run karma\""
   }
 }
