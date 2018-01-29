@@ -14,24 +14,24 @@ module.exports = function(config) {
           'babelify',
           {
             presets: ['es2015', 'flow'],
-            plugins: ['istanbul', 'transform-class-properties']
-          }
-        ]
-      ]
+            plugins: ['istanbul', 'transform-class-properties'],
+          },
+        ],
+      ],
     },
     browsers,
     coverageReporter: { type: 'lcov' },
     customLaunchers: {
       Chrome_travis_ci: {
         base: 'Chrome',
-        flags: ['--no-sandbox']
-      }
+        flags: ['--no-sandbox'],
+      },
     },
     frameworks: ['browserify', 'jasmine'],
     files: ['tests/**/*.js'],
     preprocessors: {
-      'tests/**/*.js': 'browserify'
+      'tests/**/*.js': 'browserify',
     },
-    reporters: ['progress', 'coverage']
+    reporters: ['progress', 'coverage'],
   })
 }
