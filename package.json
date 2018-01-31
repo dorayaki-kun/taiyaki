@@ -63,7 +63,7 @@
     "karma": "karma start karma.conf.js --single-run",
     "lint": "eslint src",
     "precommit": "lint-staged",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "prepush": "npm run build",
     "test": "echo \"Please run karma\""
   }
