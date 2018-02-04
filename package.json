@@ -51,7 +51,7 @@
       "git add"
     ]
   },
-  "main": "build/src/index.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/dorayakikun/taiyaki.git"
