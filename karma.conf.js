@@ -1,37 +1,11 @@
-let browsers
-if (process.env.TRAVIS) {
-  browsers = ['Chrome_travis_ci']
-} else {
-  browsers = ['Chrome']
-}
-
 module.exports = function(config) {
   config.set({
-    browserify: {
-      debug: true,
-      transform: [
-        [
-          'babelify',
-          {
-            presets: ['es2015', 'flow'],
-            plugins: ['istanbul', 'transform-class-properties'],
-          },
-        ],
-      ],
-    },
-    browsers,
-    coverageReporter: { type: 'lcov' },
-    customLaunchers: {
-      Chrome_travis_ci: {
-        base: 'Chrome',
-        flags: ['--no-sandbox'],
-      },
-    },
-    frameworks: ['browserify', 'jasmine'],
-    files: ['tests/**/*.js'],
+    frameworks: ['jasmine', 'karma-typescript'],
+    files: [{ pattern: 'src/**/*.ts' }, { pattern: 'tests/**/*.ts' }],
     preprocessors: {
-      'tests/**/*.js': 'browserify',
+      '**/*.ts': ['karma-typescript'],
     },
-    reporters: ['progress', 'coverage'],
+    reporters: ['dots', 'karma-typescript'],
+    browsers: ['Chrome'],
   })
 }

@@ -2,33 +2,33 @@
 
 'use strict'
 
-interface TYVBO {
+export interface TYVBO {
   name: string
   value: number
   stride: number
 }
 
-interface TYUniform {
+export interface TYUniform {
   name: string
   type: string
   value: any
 }
 
-interface TYColor {
+export interface TYColor {
   r: number
   g: number
   b: number
   a: number
 }
 
-interface TYViewport {
+export interface TYViewport {
   x: number
   y: number
   width: number
   height: number
 }
 
-interface TYFrameBuffer {
+export interface TYFrameBuffer {
   value: WebGLFramebuffer
   renderbuffer: WebGLRenderbuffer
   texture: WebGLTexture
