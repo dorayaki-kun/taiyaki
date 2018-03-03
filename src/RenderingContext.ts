@@ -2,51 +2,50 @@
 
 'use strict'
 
-type TYVBO = {
-  name: string,
-  value: number,
-  stride: number,
+export interface TYVBO {
+  name: string
+  value: number
+  stride: number
 }
 
-type TYUniform = {
-  name: string,
-  type: string,
-  value: any,
+export interface TYUniform {
+  name: string
+  type: string
+  value: any
 }
 
-type TYColor = {
-  r: number,
-  g: number,
-  b: number,
-  a: number,
+export interface TYColor {
+  r: number
+  g: number
+  b: number
+  a: number
 }
 
-type TYViewport = {
-  x: number,
-  y: number,
-  width: number,
-  height: number,
+export interface TYViewport {
+  x: number
+  y: number
+  width: number
+  height: number
 }
 
-type TYFrameBuffer = {
-  value: WebGLFramebuffer,
-  renderbuffer: WebGLRenderbuffer,
-  texture: WebGLTexture,
+export interface TYFrameBuffer {
+  value: WebGLFramebuffer
+  renderbuffer: WebGLRenderbuffer
+  texture: WebGLTexture
 }
 
-class RenderingContext {
+export class RenderingContext {
   canvas: HTMLCanvasElement
   gl: WebGLRenderingContext
 
   static AdditiveBlending = 'AdditiveBlending'
 
   constructor(id: string) {
-    const canvas = ((document.getElementById(id): any): ?HTMLCanvasElement)
+    const canvas = document.getElementById(id) as HTMLCanvasElement
     if (canvas === null) {
       throw new Error(`Missing HTMLCanvasElement id: ${id}`)
     }
     this.canvas = canvas
-
     const gl = canvas.getContext('webgl')
     if (gl === null) {
       throw new Error('Missing WebGLRenderingContext')
@@ -54,7 +53,7 @@ class RenderingContext {
     this.gl = gl
   }
 
-  createProgram(ids: Array<string>): WebGLProgram {
+  createProgram(ids: string[]): WebGLProgram {
     const gl = this.gl
     const program = gl.createProgram()
 
@@ -63,12 +62,10 @@ class RenderingContext {
     })
 
     gl.linkProgram(program)
-
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      throw new Error(gl.getProgramInfoLog(program))
+      throw new Error(gl.getProgramInfoLog(program) as string)
     }
-
-    return program
+    return program as WebGLProgram
   }
 
   useProgram(program: WebGLProgram) {
@@ -77,14 +74,14 @@ class RenderingContext {
 
   createShader(id: string): WebGLShader {
     const gl = this.gl
-    const source = ((document.getElementById(id): any): ?HTMLScriptElement)
 
-    if (source === null) {
+    const element = document.getElementById(id)
+    if (element === null) {
       throw new Error(`Missing HTMLScriptElement id: ${id}`)
     }
 
-    let shader: WebGLShader
-
+    const source: HTMLScriptElement = element as HTMLScriptElement
+    let shader: WebGLShader | null
     switch (source.type) {
       case 'x-shader/x-vertex':
         shader = gl.createShader(gl.VERTEX_SHADER)
@@ -104,9 +101,8 @@ class RenderingContext {
     gl.compileShader(shader)
 
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      throw new Error(gl.getShaderInfoLog(shader))
+      throw new Error(gl.getShaderInfoLog(shader) as string)
     }
-
     return shader
   }
 
@@ -116,11 +112,17 @@ class RenderingContext {
 
   createFrameBuffer(width: number, height: number): TYFrameBuffer {
     const gl = this.gl
-    const frameBuffer = gl.createFramebuffer()
 
+    const frameBuffer: WebGLFramebuffer | null = gl.createFramebuffer()
+    if (frameBuffer == null) {
+      throw new Error('Failed to create WebGLFramebuffer')
+    }
     gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer)
 
-    const renderBuffer = gl.createRenderbuffer()
+    const renderBuffer: WebGLRenderbuffer | null = gl.createRenderbuffer()
+    if (renderBuffer == null) {
+      throw new Error('Failed to create WebGLRenderbuffer')
+    }
     gl.bindRenderbuffer(gl.RENDERBUFFER, renderBuffer)
 
     gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, width, height)
@@ -140,7 +142,10 @@ class RenderingContext {
 
   createFrameBufferTexture(width: number, height: number): WebGLTexture {
     const gl = this.gl
-    const texture: WebGLTexture = gl.createTexture()
+    const texture: WebGLTexture | null = gl.createTexture()
+    if (texture == null) {
+      throw new Error('Failed to create WebGLTexture')
+    }
     gl.bindTexture(gl.TEXTURE_2D, texture)
 
     gl.texImage2D(
@@ -187,7 +192,7 @@ class RenderingContext {
     gl.vertexAttribPointer(location, vbo.stride, gl.FLOAT, false, 0, 0)
   }
 
-  createVbo(value: number): WebGLBuffer {
+  createVbo(value: number): WebGLBuffer | null {
     const gl = this.gl
     const vbo = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo)
@@ -198,7 +203,7 @@ class RenderingContext {
 
   bindIbo(index: number) {
     const gl = this.gl
-    const ibo: WebGLBuffer = gl.createBuffer()
+    const ibo: WebGLBuffer | null = gl.createBuffer()
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo)
     gl.bufferData(
       gl.ELEMENT_ARRAY_BUFFER,
@@ -211,7 +216,7 @@ class RenderingContext {
 
   createCanvasTexture(canvas2d: HTMLCanvasElement): WebGLTexture {
     const gl = this.gl
-    const texture: WebGLTexture = gl.createTexture()
+    const texture: WebGLTexture | null = gl.createTexture()
 
     gl.bindTexture(gl.TEXTURE_2D, texture)
     gl.texImage2D(
@@ -230,6 +235,9 @@ class RenderingContext {
 
     gl.bindTexture(gl.TEXTURE_2D, null)
 
+    if (texture === null) {
+      throw new Error('Missing Texture')
+    }
     return texture
   }
 
@@ -299,7 +307,13 @@ class RenderingContext {
   bindUniform(program: WebGLProgram, uniform: TYUniform) {
     const gl = this.gl
     const { name, type, value } = uniform
-    const location: WebGLUniformLocation = gl.getUniformLocation(program, name)
+    const location: WebGLUniformLocation | null = gl.getUniformLocation(
+      program,
+      name
+    )
+    if (location === null) {
+      throw new Error('Missing WebGLUniformLocation')
+    }
 
     switch (type) {
       case 'matrix4fv':
@@ -358,5 +372,3 @@ class RenderingContext {
     gl.drawElements(mode, count, gl.UNSIGNED_SHORT, offset)
   }
 }
-
-export { RenderingContext }
