@@ -20,7 +20,7 @@
   "files": [
     "README.md",
     "LICENSE",
-    "index.js",
+    "index.ts",
     "package.json",
     "src",
     "build"
