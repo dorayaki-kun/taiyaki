@@ -25,6 +25,7 @@
     "src",
     "build"
   ],
+  "types": "build/index.d.ts",
   "keywords": [
     "WebGL"
   ],
