@@ -3,7 +3,7 @@
   "description": "the lightweight library of WebGL.",
   "devDependencies": {
     "@types/jasmine": "^2.8.6",
-    "husky": "^0.14.3",
+    "husky": "^1.0.0",
     "jasmine-core": "^3.0.0",
     "karma": "^3.0.0",
     "karma-chrome-launcher": "^2.1.1",
