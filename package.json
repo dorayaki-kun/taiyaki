@@ -2,7 +2,7 @@
   "author": "dorayakikun",
   "description": "the lightweight library of WebGL.",
   "devDependencies": {
-    "@types/jasmine": "^2.8.9",
+    "@types/jasmine": "^3.0.0",
     "husky": "^1.0.0",
     "jasmine-core": "^3.3.0",
     "karma": "^3.1.1",
