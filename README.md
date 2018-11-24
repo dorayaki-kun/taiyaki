@@ -2,7 +2,6 @@
 
 [![](http://img.shields.io/npm/dm/taiyaki.svg)](https://www.npmjs.org/package/taiayaki)
 [![npm version](https://badge.fury.io/js/taiyaki.svg)](https://www.npmjs.com/package/taiyaki)
-[![Build Status](https://travis-ci.org/dorayakikun/taiyaki.svg?branch=master)](https://travis-ci.org/dorayakikun/taiyaki)
 [![Greenkeeper badge](https://badges.greenkeeper.io/dorayakikun/taiyaki.svg)](https://greenkeeper.io/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
