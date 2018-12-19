@@ -1,1 +1,1 @@
-export * from './src/RenderingContext'
+export * from "./src/RenderingContext";
