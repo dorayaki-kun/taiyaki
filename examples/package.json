@@ -1,19 +1,27 @@
 {
-  "name": "examples",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "name": "taiyaki-examples",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "build": "browserify ./index.js > ./bundle.js",
-    "server": "browser-sync start --server ./",
-    "start": "npm run build & npm run server"
+    "fmt": "eslint --fix .",
+    "serve": "browser-sync start --server ./",
+    "start": "npm run build & npm run serve"
   },
-  "keywords": [],
   "author": "dorayakikun",
   "license": "MIT",
   "devDependencies": {
-    "browser-sync": "^2.18.0",
-    "browserify": "^14.0.0"
+    "browser-sync": "^2.26.3",
+    "browserify": "^16.2.3",
+    "eslint": "^5.10.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "prettier": "^1.15.3"
   },
   "dependencies": {
     "gl-matrix-mat4": "2.2.1-npm",
