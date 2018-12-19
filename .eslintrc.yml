@@ -1,0 +1,20 @@
+---
+extends:
+  - standard
+  - prettier
+env:
+  browser: true
+  jest: true
+parser: typescript-eslint-parser
+plugins:
+  - prettier
+rules:
+  prettier/prettier:
+    - error
+overrides:
+  - files:
+      - '**/*.ts'
+      - '**/*.tsx'
+    rules:
+      no-unused-vars: off
+      no-undef: off
