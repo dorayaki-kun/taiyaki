@@ -52,7 +52,7 @@
   },
   "scripts": {
     "build": "tsc -d",
-    "fmt": "eslint --fix --ext .ts .",
+    "fmt": "eslint --fix --ext .js,.ts .",
     "karma": "karma start karma.conf.js --single-run",
     "precommit": "lint-staged",
     "prepack": "npm run build",
