@@ -1,0 +1,12 @@
+---
+  extends:
+    - standard
+    - prettier
+  env:
+    browser: true
+    jest: true
+  plugins:
+    - prettier
+  rules:
+    prettier/prettier: 
+      - error

@@ -55,7 +55,7 @@ export class RenderingContext {
 
   createProgram(ids: string[]): WebGLProgram {
     const gl = this.gl
-    const program = gl.createProgram()
+    const program = gl.createProgram() as WebGLProgram
 
     ids.forEach(id => {
       gl.attachShader(program, this.createShader(id))
