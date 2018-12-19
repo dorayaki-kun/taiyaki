@@ -3,18 +3,18 @@
   "description": "the lightweight library of WebGL.",
   "devDependencies": {
     "@types/jasmine": "^3.3.2",
-    "husky": "^1.1.4",
+    "husky": "^1.3.0",
     "jasmine-core": "^3.3.0",
-    "karma": "^3.1.1",
+    "karma": "^3.1.4",
     "karma-chrome-launcher": "^2.1.1",
     "karma-cli": "^2.0.0",
     "karma-coverage": "^1.1.1",
     "karma-jasmine": "^2.0.0",
     "karma-typescript": "^3.0.13",
     "lint-staged": "^8.1.0",
-    "prettier": "^1.15.2",
-    "tslint": "^5.9.1",
-    "typescript": "^3.1.6"
+    "prettier": "^1.15.3",
+    "tslint": "^5.12.0",
+    "typescript": "^3.2.2"
   },
   "files": [
     "README.md",
