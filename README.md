@@ -4,7 +4,6 @@
 [![Greenkeeper Enabledflat](https://badges.greenkeeper.io/dorayakikun/taiyaki.svg)](https://greenkeeper.io/)
 [![CircleCI](https://circleci.com/gh/dorayakikun/taiyaki.svg?style=svg)](https://circleci.com/gh/dorayakikun/taiyaki)
 [![npm version](https://badge.fury.io/js/taiyaki.svg)](https://www.npmjs.com/package/taiyaki)
-[![Greenkeeper badge](https://badges.greenkeeper.io/dorayakikun/taiyaki.svg)](https://greenkeeper.io/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## Overview
