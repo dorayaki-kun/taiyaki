@@ -11,6 +11,8 @@ describe("RenderingContext tests", () => {
   it("Should pass when exists specified HTMLCanvasElement", () => {
     const canvas = '<canvas id="main"></canvas>';
     document.body.insertAdjacentHTML("afterbegin", canvas);
+    /* eslint-disable no-new */
+    /* eslint-disable no-unused-vars */
     const _ctx = new RenderingContext("main");
   });
 
@@ -18,6 +20,8 @@ describe("RenderingContext tests", () => {
     const canvas = '<canvas id="missing"></canvas>';
     document.body.insertAdjacentHTML("afterbegin", canvas);
     expect(() => {
+      /* eslint-disable no-new */
+      /* eslint-disable no-unused-vars */
       const _ctx = new RenderingContext("main");
     }).toThrow(new Error("Missing HTMLCanvasElement id: main"));
   });
