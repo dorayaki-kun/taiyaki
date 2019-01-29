@@ -5,16 +5,10 @@ extends:
 env:
   browser: true
   jest: true
-parser: typescript-eslint-parser
+parser: "@typescript-eslint/parser"
 plugins:
+  - "@typescript-eslint"
   - prettier
 rules:
   prettier/prettier:
     - error
-overrides:
-  - files:
-      - '**/*.ts'
-      - '**/*.tsx'
-    rules:
-      no-unused-vars: off
-      no-undef: off

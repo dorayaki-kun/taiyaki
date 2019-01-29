@@ -1,31 +1,123 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
-jobs:
-  build:
-    docker:
-      - image: circleci/node:lts-browsers
 
-    working_directory: ~/repo
+base_image: &base_image
+  image: circleci/node:lts-browsers
+
+build_image: &build_image
+  docker:
+    - <<: *base_image
+  working_directory: ~/repo
+
+save_lock: &save_lock
+  save_cache:
+    key: node_modules-{{ checksum "yarn.lock" }}
+    paths:
+      - node_modules
+
+restore_lock: &restore_lock
+  restore_cache:
+    keys:
+      - node_modules-{{ checksum "yarn.lock" }}
+
+save: &save
+  save_cache:
+    key: code-{{ .Revision }}
+    paths:
+      - .
+      - ".git"
+      - "~/.ssh"
+      - "~/repo"
+
+restore: &restore
+  restore_cache:
+    keys:
+      - code-{{ .Revision }}
+
+jobs:
+  upload_lock:
+    <<: *build_image
+
+    environment:
+      GIT_AUTHOR_NAME: greenkeeperio-bot
+      GIT_AUTHOR_EMAIL: support@greenkeeper.io
+      GIT_COMMITTER_NAME: greenkeeperio-bot
+      GIT_COMMITTER_EMAIL: support@greenkeeper.io
 
     steps:
       - checkout
+      - run: sudo yarn global add greenkeeper-lockfile@2
+      - run: greenkeeper-lockfile-upload
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}
-            # fallback to using the latest cache if no exact match is found
-            - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-master-{{ .Environment.CIRCLE_JOB }}
+  install:
+    <<: *build_image
 
-      - run: npm ci
+    environment:
+      GIT_AUTHOR_NAME: greenkeeperio-bot
+      GIT_AUTHOR_EMAIL: support@greenkeeper.io
+      GIT_COMMITTER_NAME: greenkeeperio-bot
+      GIT_COMMITTER_EMAIL: support@greenkeeper.io
 
-      # run tests!
-      - run: npm run karma
+    steps:
+      - checkout
+      - <<: *restore_lock
+      - run: yarn;
+      - run: sudo yarn global add greenkeeper-lockfile@2
+      - run: greenkeeper-lockfile-update
+      - <<: *save_lock
+      - <<: *save
 
-      - save_cache:
-          key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{ arch }}-npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package-lock.json" }}
-          paths:
-            - ~/.npm/_cacache
+  lint:
+    <<: *build_image
+
+    steps:
+      - <<: *restore
+      - <<: *restore_lock
+      - run: yarn lint -- --format junit -o reports/eslint.xml
+
+  typecheck:
+    <<: *build_image
+    steps:
+      - <<: *restore
+      - <<: *restore_lock
+      - run: yarn typecheck
+
+  audit:
+    <<: *build_image
+    steps:
+      - <<: *restore
+      - <<: *restore_lock
+      - run: yarn audit
+
+  test:
+    <<: *build_image
+
+    steps:
+      - <<: *restore
+      - <<: *restore_lock
+      - run:
+          name: Run tests with JUnit as reporter
+          command: yarn test
+
+workflows:
+  version: 2
+  exec:
+    jobs:
+      - install
+      - lint:
+          requires:
+            - install
+      - typecheck:
+          requires:
+            - install
+      - audit:
+          requires:
+            - install
+      - test:
+          requires:
+            - install
+      - upload_lock:
+          requires:
+            - lint
+            - typecheck
+            - audit
+            - test
