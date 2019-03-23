@@ -1,5 +1,6 @@
 # taiyaki
 
+[![Build Status](https://dev.azure.com/dorayakikun/OSS/_apis/build/status/dorayakikun.taiyaki?branchName=master)](https://dev.azure.com/dorayakikun/OSS/_build/latest?definitionId=5&branchName=master)
 [![](http://img.shields.io/npm/dm/taiyaki.svg)](https://www.npmjs.org/package/taiayaki)
 [![npm version](https://badge.fury.io/js/taiyaki.svg)](https://www.npmjs.com/package/taiyaki)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
