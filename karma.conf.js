@@ -6,6 +6,6 @@ module.exports = function(config) {
       "**/*.ts": ["karma-typescript"]
     },
     reporters: ["dots", "karma-typescript"],
-    browsers: ["Chrome"]
+    browsers: ["ChromeHeadless"]
   });
 };
