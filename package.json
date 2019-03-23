@@ -51,5 +51,5 @@
     "test": "yarn karma",
     "typecheck": "tsc -p . --noEmit"
   },
-  "version": "0.6.1"
+  "version": "0.6.2"
 }
