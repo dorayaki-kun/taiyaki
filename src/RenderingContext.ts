@@ -36,6 +36,7 @@ export interface TYFrameBuffer {
 
 export class RenderingContext {
   canvas: HTMLCanvasElement;
+
   gl: WebGLRenderingContext;
 
   static AdditiveBlending = "AdditiveBlending";
